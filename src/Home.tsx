@@ -12,7 +12,7 @@ export function Home() {
           青ゾーン
         </Button>
         <Button color="gray" component={Link} to="manage">
-          試合進行
+          試合進行管理
         </Button>
       </Stack>
     </Container>
