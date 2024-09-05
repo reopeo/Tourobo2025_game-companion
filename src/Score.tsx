@@ -22,11 +22,11 @@ import {
   type UpdateScoreResponse,
 } from './srv';
 
-interface Props {
+interface ScoreProps {
   zone: 'red' | 'blue';
 }
 
-export function Score({ zone }: Props) {
+export function Score({ zone }: ScoreProps) {
   const [team, setTeam] = useState<Team>({
     name: '',
     id: '',
@@ -74,6 +74,13 @@ export function Score({ zone }: Props) {
     };
   }, [zone]);
 
+  const updateScore = (
+    command: (typeof Command)[keyof typeof Command],
+    data: number,
+  ) => {
+    updateScoreSrv?.callService({ command, data }, () => {});
+  };
+
   return (
     <Container>
       <Stack gap="xl" mt="md" mb="md">
@@ -93,10 +100,7 @@ export function Score({ zone }: Props) {
             { value: 'auto', label: '自動' },
           ]}
           onChange={(value) => {
-            updateScoreSrv?.callService(
-              { command: Command.IS_AUTO, data: value === 'auto' ? 1 : 0 },
-              () => {},
-            );
+            updateScore(Command.IS_AUTO, value === 'auto' ? 1 : 0);
           }}
         />
 
@@ -105,10 +109,7 @@ export function Score({ zone }: Props) {
             size="xl"
             color="gray"
             onClick={() => {
-              updateScoreSrv?.callService(
-                { command: Command.SEEDLINGS, data: -1 },
-                () => {},
-              );
+              updateScore(Command.SEEDLINGS, -1);
             }}
           >
             <IconMinus />
@@ -120,10 +121,7 @@ export function Score({ zone }: Props) {
             size="xl"
             color={zone}
             onClick={() => {
-              updateScoreSrv?.callService(
-                { command: Command.SEEDLINGS, data: 1 },
-                () => {},
-              );
+              updateScore(Command.SEEDLINGS, 1);
             }}
           >
             <IconPlus />
@@ -135,13 +133,7 @@ export function Score({ zone }: Props) {
           size="xl"
           color={team.immigration ? 'green' : zone}
           onClick={() => {
-            updateScoreSrv?.callService(
-              {
-                command: Command.IMMIGRATION,
-                data: team.immigration ? 0 : 1,
-              },
-              () => {},
-            );
+            updateScore(Command.IMMIGRATION, team.immigration ? 0 : 1);
           }}
         >
           {team.immigration ? '入国済み' : '入国'}
@@ -152,13 +144,7 @@ export function Score({ zone }: Props) {
             size="xl"
             color={team.type_1_a ? 'orange' : 'gray'}
             onClick={() => {
-              updateScoreSrv?.callService(
-                {
-                  command: Command.TYPE_1_A,
-                  data: team.type_1_a ? 0 : 1,
-                },
-                () => {},
-              );
+              updateScore(Command.TYPE_1_A, team.type_1_a ? 0 : 1);
             }}
           >
             <IconBoxAlignBottomFilled />
@@ -167,13 +153,7 @@ export function Score({ zone }: Props) {
             size="xl"
             color={team.type_2 ? 'green' : 'gray'}
             onClick={() => {
-              updateScoreSrv?.callService(
-                {
-                  command: Command.TYPE_2,
-                  data: team.type_2 ? 0 : 1,
-                },
-                () => {},
-              );
+              updateScore(Command.TYPE_2, team.type_2 ? 0 : 1);
             }}
           >
             <IconSquareFilled />
@@ -182,13 +162,7 @@ export function Score({ zone }: Props) {
             size="xl"
             color={team.type_1_b ? 'orange' : 'gray'}
             onClick={() => {
-              updateScoreSrv?.callService(
-                {
-                  command: Command.TYPE_1_B,
-                  data: team.type_1_b ? 0 : 1,
-                },
-                () => {},
-              );
+              updateScore(Command.TYPE_1_B, team.type_1_b ? 0 : 1);
             }}
           >
             <IconBoxAlignBottomFilled />
@@ -200,13 +174,7 @@ export function Score({ zone }: Props) {
           size="xl"
           color={team.v_goal ? 'green' : zone}
           onClick={() => {
-            updateScoreSrv?.callService(
-              {
-                command: Command.V_GOAL,
-                data: team.v_goal ? 0 : 1,
-              },
-              () => {},
-            );
+            updateScore(Command.V_GOAL, team.v_goal ? 0 : 1);
           }}
         >
           {team.v_goal ? 'Vゴール済み' : 'Vゴール'}
