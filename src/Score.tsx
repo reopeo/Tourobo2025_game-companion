@@ -20,7 +20,7 @@ interface Props {
   zone: 'red' | 'blue';
 }
 
-export function App({ zone }: Props) {
+export function Score({ zone }: Props) {
   const [team, setTeam] = useState<Team>({
     name: '',
     id: '',
