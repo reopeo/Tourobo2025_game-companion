@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import '@mantine/core/styles.css';
 import { Home } from './Home.tsx';
+import { Manage } from './Manage.tsx';
 
 const theme = createTheme({});
 
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: '/blue',
     element: <Score zone="blue" />,
+  },
+  {
+    path: '/manage',
+    element: <Manage />,
   },
 ]);
 
