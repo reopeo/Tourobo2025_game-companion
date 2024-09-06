@@ -10,16 +10,20 @@ import {
 import * as ROSLIB from '@tier4/roslibjs-foxglove';
 import { useEffect, useState } from 'react';
 import type { Match } from './msg';
+import {
+  type EndMatchRequest,
+  type EndMatchResponse,
+  RefereeCall,
+} from './srv';
 
 export function Manage() {
   const [match, setMatch] = useState<Match>();
 
   const [loadNextSrv, setLoadNextSrv] = useState<ROSLIB.Service>();
   const [startSrv, setStartSrv] = useState<ROSLIB.Service>();
-  const [redRefereeCallSrv, setRedRefereeCallSrv] = useState<ROSLIB.Service>();
-  const [blueRefereeCallSrv, setBlueRefereeCallSrv] =
-    useState<ROSLIB.Service>();
-  const [confirmSrv, setConfirmSrv] = useState<ROSLIB.Service>();
+  const [restartSrv, setRestartSrv] = useState<ROSLIB.Service>();
+  const [endSrv, setEndSrv] =
+    useState<ROSLIB.Service<EndMatchRequest, EndMatchResponse>>();
 
   useEffect(() => {
     const ros = new ROSLIB.Ros({ url: `ws://${location.hostname}:8765` });
@@ -47,26 +51,19 @@ export function Manage() {
     });
     setStartSrv(startSrv);
 
-    const redRefereeCallSrv = new ROSLIB.Service({
+    const restartSrv = new ROSLIB.Service({
       ros,
       name: '/red/referee_call',
       serviceType: 'std_srvs/srv/Empty',
     });
-    setRedRefereeCallSrv(redRefereeCallSrv);
+    setRestartSrv(restartSrv);
 
-    const blueRefereeCallSrv = new ROSLIB.Service({
+    const endSrv = new ROSLIB.Service<EndMatchRequest, EndMatchResponse>({
       ros,
-      name: '/blue/referee_call',
-      serviceType: 'std_srvs/srv/Empty',
+      name: '/match/end',
+      serviceType: 'game_state_interfaces/srv/EndMatch',
     });
-    setBlueRefereeCallSrv(blueRefereeCallSrv);
-
-    const confirmSrv = new ROSLIB.Service({
-      ros,
-      name: '/match/confirm',
-      serviceType: 'std_srvs/srv/Empty',
-    });
-    setConfirmSrv(confirmSrv);
+    setEndSrv(endSrv);
 
     return () => {
       matchSub.unsubscribe();
@@ -87,6 +84,7 @@ export function Manage() {
           <Stack gap="xl" mt="md" mb="md">
             <Button
               size="xl"
+              color="gray"
               onClick={() => loadNextSrv?.callService({}, () => {})}
             >
               次の試合を読み込み
@@ -94,6 +92,7 @@ export function Manage() {
 
             <Button
               size="xl"
+              color="gray"
               onClick={() => startSrv?.callService({}, () => {})}
             >
               試合開始
@@ -101,23 +100,48 @@ export function Manage() {
 
             <Button
               size="xl"
-              onClick={() => redRefereeCallSrv?.callService({}, () => {})}
+              color="gray"
+              onClick={() => {
+                restartSrv?.callService({}, () => {});
+              }}
             >
-              赤ゾーン審判呼出
+              再試合
             </Button>
 
             <Button
               size="xl"
-              onClick={() => blueRefereeCallSrv?.callService({}, () => {})}
+              color="gray"
+              onClick={() =>
+                endSrv?.callService(
+                  { referee_call: RefereeCall.NONE },
+                  () => {},
+                )
+              }
             >
-              青ゾーン審判呼出
+              試合終了 (通常)
             </Button>
 
             <Button
               size="xl"
-              onClick={() => confirmSrv?.callService({}, () => {})}
+              color="red"
+              onClick={() =>
+                endSrv?.callService({ referee_call: RefereeCall.RED }, () => {})
+              }
             >
-              試合結果確定
+              試合終了 (審判判定赤)
+            </Button>
+
+            <Button
+              size="xl"
+              color="blue"
+              onClick={() =>
+                endSrv?.callService(
+                  { referee_call: RefereeCall.BLUE },
+                  () => {},
+                )
+              }
+            >
+              試合終了 (審判判定青)
             </Button>
           </Stack>
 
