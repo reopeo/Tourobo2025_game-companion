@@ -85,7 +85,11 @@ export function Manage() {
             <Button
               size="xl"
               color="gray"
-              onClick={() => loadNextSrv?.callService({}, () => {})}
+              onClick={() => {
+                if (confirm('次の試合を読み込みますか？')) {
+                  loadNextSrv?.callService({}, () => {});
+                }
+              }}
             >
               次の試合を読み込み
             </Button>
@@ -93,7 +97,11 @@ export function Manage() {
             <Button
               size="xl"
               color="gray"
-              onClick={() => startSrv?.callService({}, () => {})}
+              onClick={() => {
+                if (confirm('試合開始しますか？')) {
+                  startSrv?.callService({}, () => {});
+                }
+              }}
             >
               試合開始
             </Button>
@@ -102,7 +110,9 @@ export function Manage() {
               size="xl"
               color="gray"
               onClick={() => {
-                restartSrv?.callService({}, () => {});
+                if (confirm('再試合しますか？')) {
+                  // restartSrv?.callService({}, () => {});
+                }
               }}
             >
               再試合
@@ -111,12 +121,14 @@ export function Manage() {
             <Button
               size="xl"
               color="gray"
-              onClick={() =>
-                endSrv?.callService(
-                  { referee_call: RefereeCall.NONE },
-                  () => {},
-                )
-              }
+              onClick={() => {
+                if (confirm('試合終了 (通常) しますか？')) {
+                  endSrv?.callService(
+                    { referee_call: RefereeCall.NONE },
+                    () => {},
+                  );
+                }
+              }}
             >
               試合終了 (通常)
             </Button>
@@ -124,9 +136,14 @@ export function Manage() {
             <Button
               size="xl"
               color="red"
-              onClick={() =>
-                endSrv?.callService({ referee_call: RefereeCall.RED }, () => {})
-              }
+              onClick={() => {
+                if (confirm('試合終了 (審判判定赤) しますか？')) {
+                  endSrv?.callService(
+                    { referee_call: RefereeCall.RED },
+                    () => {},
+                  );
+                }
+              }}
             >
               試合終了 (審判判定赤)
             </Button>
@@ -134,12 +151,14 @@ export function Manage() {
             <Button
               size="xl"
               color="blue"
-              onClick={() =>
-                endSrv?.callService(
-                  { referee_call: RefereeCall.BLUE },
-                  () => {},
-                )
-              }
+              onClick={() => {
+                if (confirm('試合終了 (審判判定青) しますか？')) {
+                  endSrv?.callService(
+                    { referee_call: RefereeCall.BLUE },
+                    () => {},
+                  );
+                }
+              }}
             >
               試合終了 (審判判定青)
             </Button>
