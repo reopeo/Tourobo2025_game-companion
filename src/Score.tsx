@@ -8,14 +8,14 @@ import {
   Title,
 } from '@mantine/core';
 import {
-  IconBoxAlignBottomFilled,
   IconMinus,
   IconPlus,
-  IconSquareFilled,
+  IconSquareNumber1Filled,
+  IconSquareNumber2Filled,
 } from '@tabler/icons-react';
+import * as ROSLIB from '@tier4/roslibjs-foxglove';
 import { useEffect, useState } from 'react';
 import type { Match, Team } from './msg';
-import * as ROSLIB from '@tier4/roslibjs-foxglove';
 import {
   Command,
   type UpdateScoreRequest,
@@ -147,7 +147,7 @@ export function Score({ zone }: ScoreProps) {
               updateScore(Command.TYPE_1_A, team.type_1_a ? 0 : 1);
             }}
           >
-            <IconBoxAlignBottomFilled />
+            <IconSquareNumber1Filled />
           </Button>
           <Button
             size="xl"
@@ -156,7 +156,7 @@ export function Score({ zone }: ScoreProps) {
               updateScore(Command.TYPE_2, team.type_2 ? 0 : 1);
             }}
           >
-            <IconSquareFilled />
+            <IconSquareNumber2Filled />
           </Button>
           <Button
             size="xl"
@@ -165,7 +165,7 @@ export function Score({ zone }: ScoreProps) {
               updateScore(Command.TYPE_1_B, team.type_1_b ? 0 : 1);
             }}
           >
-            <IconBoxAlignBottomFilled />
+            <IconSquareNumber1Filled />
           </Button>
         </Group>
 

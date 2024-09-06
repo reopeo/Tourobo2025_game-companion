@@ -1,12 +1,12 @@
 import { MantineProvider, createTheme } from '@mantine/core';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Score } from './Score.tsx';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
-import '@mantine/core/styles.css';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Home } from './Home.tsx';
 import { Manage } from './Manage.tsx';
+import { Score } from './Score.tsx';
+
+import '@mantine/core/styles.css';
 
 const theme = createTheme({});
 
