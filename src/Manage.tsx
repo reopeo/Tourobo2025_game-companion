@@ -1,14 +1,14 @@
 import {
-  Container,
-  Stack,
-  Paper,
-  Title,
   Button,
   Code,
+  Container,
+  Paper,
   SimpleGrid,
+  Stack,
+  Title,
 } from '@mantine/core';
 import * as ROSLIB from '@tier4/roslibjs-foxglove';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { Match } from './msg';
 
 export function Manage() {
@@ -22,7 +22,7 @@ export function Manage() {
   const [confirmSrv, setConfirmSrv] = useState<ROSLIB.Service>();
 
   useEffect(() => {
-    const ros = new ROSLIB.Ros({ url: 'ws://192.168.0.118:8765' });
+    const ros = new ROSLIB.Ros({ url: `ws://${location.hostname}:8765` });
 
     const matchSub = new ROSLIB.Topic<Match>({
       ros,

@@ -47,7 +47,7 @@ export function Score({ zone }: ScoreProps) {
     useState<ROSLIB.Service<UpdateScoreRequest, UpdateScoreResponse>>();
 
   useEffect(() => {
-    const ros = new ROSLIB.Ros({ url: 'ws://192.168.0.118:8765' });
+    const ros = new ROSLIB.Ros({ url: `ws://${location.hostname}:8765` });
 
     const matchSub = new ROSLIB.Topic<Match>({
       ros,
