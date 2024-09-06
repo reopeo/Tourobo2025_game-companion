@@ -21,7 +21,7 @@ export function Manage() {
 
   const [loadNextSrv, setLoadNextSrv] = useState<ROSLIB.Service>();
   const [startSrv, setStartSrv] = useState<ROSLIB.Service>();
-  const [restartSrv, setRestartSrv] = useState<ROSLIB.Service>();
+  const [resetSrv, setResetSrv] = useState<ROSLIB.Service>();
   const [endSrv, setEndSrv] =
     useState<ROSLIB.Service<EndMatchRequest, EndMatchResponse>>();
 
@@ -51,12 +51,12 @@ export function Manage() {
     });
     setStartSrv(startSrv);
 
-    const restartSrv = new ROSLIB.Service({
+    const resetSrv = new ROSLIB.Service({
       ros,
-      name: '/red/referee_call',
+      name: '/match/reset',
       serviceType: 'std_srvs/srv/Empty',
     });
-    setRestartSrv(restartSrv);
+    setResetSrv(resetSrv);
 
     const endSrv = new ROSLIB.Service<EndMatchRequest, EndMatchResponse>({
       ros,
@@ -111,7 +111,7 @@ export function Manage() {
               color="gray"
               onClick={() => {
                 if (confirm('再試合しますか？')) {
-                  // restartSrv?.callService({}, () => {});
+                  resetSrv?.callService({}, () => {});
                 }
               }}
             >
