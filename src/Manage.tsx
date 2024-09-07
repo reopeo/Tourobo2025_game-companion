@@ -102,6 +102,7 @@ export function Manage() {
                   startSrv?.callService({}, () => {});
                 }
               }}
+              disabled
             >
               試合開始
             </Button>
