@@ -19,6 +19,8 @@ import {
 export function Manage() {
   const [match, setMatch] = useState<Match>();
 
+  const [rosConnected, setRosConnected] = useState(false);
+
   const [loadNextSrv, setLoadNextSrv] = useState<ROSLIB.Service>();
   const [startSrv, setStartSrv] = useState<ROSLIB.Service>();
   const [resetSrv, setResetSrv] = useState<ROSLIB.Service>();
@@ -27,6 +29,16 @@ export function Manage() {
 
   useEffect(() => {
     const ros = new ROSLIB.Ros({ url: `ws://${location.hostname}:8765` });
+    ros.on('connection', () => {
+      setRosConnected(true);
+    });
+    ros.on('error', (e) => {
+      console.error(e);
+      setRosConnected(false);
+    });
+    ros.on('close', () => {
+      setRosConnected(false);
+    });
 
     const matchSub = new ROSLIB.Topic<Match>({
       ros,
@@ -76,7 +88,7 @@ export function Manage() {
       <Stack gap="xl" mt="md" mb="md">
         <Paper p="md" bg="gray">
           <Title size="h2" c="white">
-            試合進行管理
+            試合進行管理 [{rosConnected ? '接続済' : '未接続'}]
           </Title>
         </Paper>
 

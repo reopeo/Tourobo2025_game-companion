@@ -46,8 +46,20 @@ export function Score({ zone }: ScoreProps) {
   const [updateScoreSrv, setUpdateScoreSrv] =
     useState<ROSLIB.Service<UpdateScoreRequest, UpdateScoreResponse>>();
 
+  const [rosConnected, setRosConnected] = useState(false);
+
   useEffect(() => {
     const ros = new ROSLIB.Ros({ url: `ws://${location.hostname}:8765` });
+    ros.on('connection', () => {
+      setRosConnected(true);
+    });
+    ros.on('error', (e) => {
+      console.error(e);
+      setRosConnected(false);
+    });
+    ros.on('close', () => {
+      setRosConnected(false);
+    });
 
     const matchSub = new ROSLIB.Topic<Match>({
       ros,
@@ -86,7 +98,7 @@ export function Score({ zone }: ScoreProps) {
       <Stack gap="xl" mt="md" mb="md">
         <Paper p="md" bg={zone}>
           <Title size="h2" c="white">
-            得点入力画面
+            得点入力画面 [{rosConnected ? '接続済' : '未接続'}]
           </Title>
         </Paper>
 
