@@ -93,12 +93,18 @@ export function Score({ zone }: ScoreProps) {
     updateScoreSrv?.callService({ command, data }, () => {});
   };
 
-  return (
+  return !rosConnected ? (
+    <Container>
+      <Title size="h2" c="red">
+        ROSに接続していません。再読込してください。
+      </Title>
+    </Container>
+  ) : (
     <Container>
       <Stack gap="xl" mt="md" mb="md">
         <Paper p="md" bg={zone}>
           <Title size="h2" c="white">
-            得点入力画面 [{rosConnected ? '接続済' : '未接続'}]
+            得点入力画面
           </Title>
         </Paper>
 

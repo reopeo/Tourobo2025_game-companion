@@ -83,12 +83,18 @@ export function Manage() {
     };
   }, []);
 
-  return (
+  return !rosConnected ? (
+    <Container>
+      <Title size="h2" c="red">
+        ROSに接続していません。再読込してください。
+      </Title>
+    </Container>
+  ) : (
     <Container>
       <Stack gap="xl" mt="md" mb="md">
         <Paper p="md" bg="gray">
           <Title size="h2" c="white">
-            試合進行管理 [{rosConnected ? '接続済' : '未接続'}]
+            試合進行管理
           </Title>
         </Paper>
 
