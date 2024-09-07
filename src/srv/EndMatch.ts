@@ -1,7 +1,7 @@
 export const RefereeCall = {
-  RED: 0,
-  BLUE: 1,
-  NONE: 2,
+  NONE: 0,
+  RED: 1,
+  BLUE: 2,
 } as const;
 
 export interface EndMatchRequest {
