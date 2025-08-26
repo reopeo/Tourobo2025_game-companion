@@ -16,12 +16,8 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: '/red',
-    element: <Score zone="red" />,
-  },
-  {
-    path: '/blue',
-    element: <Score zone="blue" />,
+    path: '/score',
+    element: <Score />,
   },
   {
     path: '/manage',

@@ -11,11 +11,8 @@ export function Home() {
           </Title>
         </Paper>
 
-        <Button color="red" component={Link} to="red" size="xl">
-          赤ゾーン
-        </Button>
-        <Button color="blue" component={Link} to="blue" size="xl">
-          青ゾーン
+        <Button color="red" component={Link} to="score" size="xl">
+          点数管理
         </Button>
         <Button color="gray" component={Link} to="manage" size="xl">
           試合進行管理
