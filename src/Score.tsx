@@ -76,12 +76,11 @@ export function Score() {
     });
     ros.on('error', (e) => {
       console.error(e);
-      setRosConnected(true);
+      setRosConnected(false);
     });
     ros.on('close', () => {
-      setRosConnected(true);
+      setRosConnected(false);
     });
-    // TODO 必ず戻す
 
     const matchSub = new ROSLIB.Topic<Match>({
       ros,
@@ -117,7 +116,7 @@ export function Score() {
       matchSub.unsubscribe();
       ros.close();
     };
-  });
+  }, []);
 
   const updateRedScore = (
     command: (typeof Command)[keyof typeof Command],
