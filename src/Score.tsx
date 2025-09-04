@@ -68,6 +68,7 @@ export function Score() {
     useState<ROSLIB.Service<UpdateScoreRequest, UpdateScoreResponse>>();
 
   const [rosConnected, setRosConnected] = useState(false);
+  const [match, setMatch] = useState<Match | null>(null);
 
   useEffect(() => {
     const ros = new ROSLIB.Ros({ url: `ws://${location.hostname}:8765` });
@@ -88,6 +89,7 @@ export function Score() {
       messageType: 'game_state_interfaces/msg/Match',
     });
     matchSub.subscribe((msg) => {
+      setMatch(msg);
       setRedTeam(msg.red_team);
       setBlueTeam(msg.blue_team);
     });
@@ -130,6 +132,16 @@ export function Score() {
     data: number,
   ) => {
     updateBlueScoreSrv?.callService({ command, data }, () => {});
+  };
+
+  // 各マスの背景色を決定する関数
+  const getCellBg = (row: string, col: string) => {
+    if (!match) return 'gray.0';
+    const key = `type_${row}_${col}` as keyof Match;
+    const value = match[key];
+    if (value === 1) return 'red.1';
+    if (value === 2) return 'blue.1';
+    return 'gray.0';
   };
 
   return !rosConnected ? (
@@ -202,14 +214,20 @@ export function Score() {
         <Paper p="md" bg="gray.1" mb="md">
           <Title size="h3" mb="sm">ビンゴ得点</Title>
           <Stack gap="xs">
-            {['3', '2', '1'].map((row) => (
+            {['1', '2', '3'].map((row) => (
               <Group key={row} gap="xs" grow>
                 {['a', 'b', 'c'].map((col) => {
                   const typeKey = `type_${row}_${col}` as keyof Team;
                   const commandKey = `TYPE_${row.toUpperCase()}_${col.toUpperCase()}` as keyof typeof Command;
                   const cellTitle = `Type ${row}${col.toUpperCase()}`;
                   return (
-                    <Paper key={col} p="xs" radius="md" withBorder>
+                    <Paper
+                      key={col}
+                      p="xs"
+                      radius="md"
+                      withBorder
+                      bg={getCellBg(row, col)}
+                    >
                       <Stack gap={2} align="center">
                         <Title order={5} mb={2}>{cellTitle}</Title>
                         <Group gap={2}>
