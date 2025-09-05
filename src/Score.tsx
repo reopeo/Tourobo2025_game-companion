@@ -216,7 +216,7 @@ export function Score() {
           <Stack gap="xs">
             {['1', '2', '3'].map((row) => (
               <Group key={row} gap="xs" grow>
-                {['a', 'b', 'c'].map((col) => {
+                {['c', 'b', 'a'].map((col) => {
                   const typeKey = `type_${row}_${col}` as keyof Team;
                   const commandKey = `TYPE_${row.toUpperCase()}_${col.toUpperCase()}` as keyof typeof Command;
                   const cellTitle = `Type ${row}${col.toUpperCase()}`;
