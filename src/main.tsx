@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Home } from './Home.tsx';
 import { Manage } from './Manage.tsx';
 import { Score } from './Score.tsx';
+import { ScoreFlip } from './ScoreFlip.tsx';
 
 import '@mantine/core/styles.css';
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: '/score',
     element: <Score />,
+  },
+  {
+    path: '/scoreFlip',
+    element: <ScoreFlip />,
   },
   {
     path: '/manage',

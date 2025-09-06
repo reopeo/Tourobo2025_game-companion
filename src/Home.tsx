@@ -14,6 +14,9 @@ export function Home() {
         <Button color="red" component={Link} to="score" size="xl">
           点数管理
         </Button>
+        <Button color="red" component={Link} to="scoreFlip" size="xl">
+          点数管理(修正席用)
+        </Button>
         <Button color="gray" component={Link} to="manage" size="xl">
           試合進行管理
         </Button>
